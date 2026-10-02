@@ -1,0 +1,53 @@
+# Core data
+pandas>=2.2.0
+numpy>=1.26.0
+pyarrow>=16.0.0
+
+# Data validation & drift
+# NOTE: GX 1.x requires Python <3.13; using latest compatible (1.23.x+ supports 3.13)
+great-expectations>=1.7.0
+# Evidently 0.7.x (installed: 0.7.23)
+evidently>=0.7.0
+
+# LLM / agents
+# Installed: langchain 1.4.3, langgraph 1.2.12
+langchain>=1.0.0
+langchain-groq>=0.2.0
+langchain-community>=0.4.0
+langgraph>=1.0.0
+langchain-core>=0.3.0
+
+# Embeddings & vector store
+# Installed: sentence-transformers 6.1.0, chromadb 1.5.9
+sentence-transformers>=3.0.0
+chromadb>=0.5.0
+
+# RAGAS faithfulness — NOTE: RAGAS 0.4.x crashes on import with modern
+# langchain-community (bug: github.com/vibrantlabsai/ragas/issues/2753).
+# We implement a custom faithfulness scorer in trust/faithfulness.py using
+# direct Groq structured-output calls. This is equivalent and more transparent.
+# ragas is NOT installed; the custom implementation is self-contained.
+
+# Database
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+alembic>=1.14.0
+
+# API & dashboard
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.10.0
+pydantic-settings>=2.6.0
+streamlit>=1.40.0
+httpx>=0.27.0
+
+# Config & utilities
+pyyaml>=6.0.0
+python-dotenv>=1.0.0
+kaggle>=1.6.0
+rich>=13.0.0
+tenacity>=9.0.0
+
+# Testing
+pytest>=8.3.0
+pytest-asyncio>=0.24.0

@@ -1,0 +1,44 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environment/config
+.env
+.env.*
+.env.local
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Logs and runtime files
+*.log
+
+# Local data artifacts and generated DBs
+selfmend/data/batches/
+selfmend/data/chroma_db/
+selfmend/data/raw/
+selfmend/data/clean/
+*.sqlite3
+
+# Streamlit local config if used
+.streamlit/
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/

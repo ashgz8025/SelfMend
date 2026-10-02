@@ -1,0 +1,67 @@
+# SelfMend configuration — all thresholds derived from baseline stats after ETL
+# Values marked PLACEHOLDER are overwritten by pipeline/etl.py after profiling
+
+data:
+  raw_dir: data/raw
+  clean_dir: data/clean
+  batches_dir: data/batches
+  quarantine_dir: data/quarantine
+  reference_file: data/clean/reference.parquet
+  baseline_stats_file: data/clean/baseline_stats.json
+  reference_split: 0.60          # first 60% of clean rows = reference window
+
+detection:
+  # Great Expectations
+  gx:
+    null_rate_margin: 0.05        # fail if null_rate > baseline + margin
+    total_tolerance: 0.01         # Total == Quantity * Price within 1 %
+    expected_columns:
+      - Transaction ID
+      - Date
+      - Item
+      - Quantity
+      - Price Per Unit
+      - Total Spent
+      - Payment Method
+      - Location
+  # Evidently drift
+  evidently:
+    drift_threshold: 0.17        # JS/Wasserstein distance; tuned for 200-row batches (0% FA)
+    drift_share_threshold: 0.30  # flag batch if > 30 % of columns drift
+
+memory:
+  chroma_persist_dir: data/chroma_db
+  collection_name: incidents
+  embedding_model: all-MiniLM-L6-v2
+  top_k: 3
+
+llm:
+  model: llama-3.3-70b-versatile
+  temperature: 0.0
+  max_tokens: 1024
+
+trust:
+  faithfulness_threshold: 0.80   # below this → escalate
+
+policy:
+  auto_fix_conditions:
+    risk_levels_allowed: [low]
+    faithfulness_min: 0.80
+    confidence_min: 0.70
+  whitelisted_actions:
+    - normalize_sentinels_to_null
+    - restore_total_from_quantity_price
+    - impute_nulls
+    - drop_duplicates
+    - clip_outliers
+
+database:
+  # Overridden by DATABASE_URL env var
+  url: postgresql://selfmend:selfmend_pass@localhost:5432/selfmend
+
+api:
+  host: 0.0.0.0
+  port: 8000
+
+dashboard:
+  port: 8501
